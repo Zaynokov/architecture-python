@@ -27,12 +27,14 @@ class Framework:
         if method == 'GET':
             request_params = GetRequests().get_request_params(environ)
             request['request_params'] = Framework.decode_value(request_params)
+            print(f'Декодированная строка GET-запроса - {request["request_params"]}')
             with open('get_data.txt', 'a', encoding='utf-8') as file:
                 file.write(str(datetime.datetime.now()) + ' ' + str(request['request_params']) + '\n') \
                     if request['request_params'] else None
         if method == 'POST':
             data = PostRequests().get_request_params(environ)
             request['data'] = Framework.decode_value(data)
+            print(f'Декодированная строка POST-запроса - {request["data"]}')
             with open('post_data.txt', 'a', encoding='utf-8') as file:
                 file.write(str(datetime.datetime.now()) + ' ' + str(request['data']) + '\n') \
                     if request['data'] else None
@@ -58,7 +60,7 @@ class Framework:
     def decode_value(data):
         result = {}
         for key, value in data.items():
-            val = bytes(value.replace('%', '=').replace("+", " "), 'UTF-8')
-            val_decode_str = decodestring(val).decode('UTF-8')
+            val = bytes(value.replace('%', '=').replace("+", " "), 'utf-8')
+            val_decode_str = decodestring(val).decode('utf-8')
             result[key] = val_decode_str
         return result

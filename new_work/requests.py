@@ -43,7 +43,6 @@ class PostRequests:
         result = {}
         if data:
             data_str = data.decode(encoding='utf-8')
-            print(f'Декодированная строка - {data_str}')
             result = self.parse_input_data(data_str)
         return result
 

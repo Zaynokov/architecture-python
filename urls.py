@@ -1,11 +1,9 @@
-from views import Index, Contact, Examples, Page, AnotherPage
+from views import Index, Contact, PersonalPage, Registration, NewCategory, NewCourse, CoursesList, Editor
 
 
 # front controller
 def styling(request):
-    with open('templates/style/style.css', encoding='utf-8') as f:
-        style = f.read()
-        request['style'] = style
+    pass
 
 
 def other_front(request):
@@ -17,7 +15,10 @@ fronts = [styling, other_front]
 routes = {
     '/': Index(),
     '/contact/': Contact(),
-    '/examples/': Examples(),
-    '/page/': Page(),
-    '/another_page/': AnotherPage(),
+    '/personal_page/': PersonalPage(),
+    '/courses/': CoursesList(),
+    '/registration/': Registration(),
+    '/new_category/': NewCategory(),
+    '/new_course/': NewCourse(),
+    '/edit/': Editor()
 }

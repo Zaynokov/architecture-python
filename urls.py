@@ -12,13 +12,3 @@ def other_front(request):
 
 fronts = [styling, other_front]
 
-routes = {
-    '/': Index(),
-    '/contact/': Contact(),
-    '/personal_page/': PersonalPage(),
-    '/courses/': CoursesList(),
-    '/registration/': Registration(),
-    '/new_category/': NewCategory(),
-    '/new_course/': NewCourse(),
-    '/edit/': Editor()
-}

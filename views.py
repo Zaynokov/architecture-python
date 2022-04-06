@@ -1,32 +1,45 @@
 from new_work.templator import render
 from patterns.creation_patterns import Engine, Logger
+from patterns.structural_patterns import AppRoute, Debug
 
 site = Engine()
 logger = Logger('main')
 
+routes = {}
 
+
+@AppRoute(routes=routes, url='/')
 class Index:
+    @Debug(name='Index')
     def __call__(self, request):
         return '200 OK', render('index.html',
                                 categories=site.categories)
 
 
+@AppRoute(routes=routes, url='/contact')
 class Contact:
+    @Debug(name='Contact')
     def __call__(self, request):
         return '200 OK', render('contact.html')
 
 
+@AppRoute(routes=routes, url='/personal_page')
 class PersonalPage:
+    @Debug(name='PersonalPage')
     def __call__(self, request):
         return '200 OK', render('personal_page.html')
 
 
+@AppRoute(routes=routes, url='/registration')
 class Registration:
+    @Debug(name='Registration')
     def __call__(self, request):
         return '200 OK', render('registration.html')
 
 
+@AppRoute(routes=routes, url='/courses')
 class CoursesList:
+    @Debug(name='CoursesList')
     def __call__(self, request):
         logger.log('Список курсов')
         categories = site.categories
@@ -35,8 +48,9 @@ class CoursesList:
                                 courses_dict=site.courses_dict)
 
 
-# контроллер - создать курс
+@AppRoute(routes=routes, url='/new_course')
 class NewCourse:
+    @Debug(name='NewCourse')
     def __call__(self, request):
 
         if request['method'] == 'POST':
@@ -67,8 +81,9 @@ class NewCourse:
                                     objects_list=categories)
 
 
-# контроллер - создать категорию
+@AppRoute(routes=routes, url='/new_category')
 class NewCategory:
+    @Debug(name='NewCategory')
     def __call__(self, request):
 
         if request['method'] == 'POST':
@@ -92,7 +107,9 @@ class NewCategory:
             return '200 OK', render('new_category.html')
 
 
+@AppRoute(routes=routes, url='/edit')
 class Editor:
+    @Debug(name='Editor')
     def __call__(self, request):
         return '200 OK', render('edit.html',
                                 objects_list=site.categories,
@@ -106,25 +123,3 @@ class EditCourse:
 
 class EditCategory:
     pass
-
-
-# контроллер - копировать курс
-class CopyCourse:
-    def __call__(self, request):
-        request_params = request['request_params']
-
-        try:
-            name = request_params['name']
-
-            old_course = site.get_course(name)
-            if old_course:
-                new_name = f'copy_{name}'
-                new_course = old_course.clone()
-                new_course.name = new_name
-                site.courses.append(new_course)
-
-            return '200 OK', render('course_list.html',
-                                    objects_list=site.courses,
-                                    name=new_course.category.name)
-        except KeyError:
-            return '200 OK', 'No courses have been added yet'

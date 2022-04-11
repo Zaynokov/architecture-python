@@ -1,4 +1,4 @@
-from views import Index, Contact, PersonalPage, Registration, NewCategory, NewCourse, CoursesList, Editor
+from views import Index, Contact, PersonalPage, RegistrationView, NewCategory, NewCourse, CoursesList, Editor
 
 
 # front controller

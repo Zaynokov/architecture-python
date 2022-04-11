@@ -1,4 +1,5 @@
 from new_work.templator import render
+from patterns.behavioral_patterns import CreateView, ListView
 from patterns.creation_patterns import Engine, Logger
 from patterns.structural_patterns import AppRoute, Debug
 
@@ -6,6 +7,8 @@ site = Engine()
 logger = Logger('main')
 
 routes = {}
+
+item_id = 0
 
 
 @AppRoute(routes=routes, url='/')
@@ -31,10 +34,35 @@ class PersonalPage:
 
 
 @AppRoute(routes=routes, url='/registration')
-class Registration:
-    @Debug(name='Registration')
+class RegistrationView(CreateView):
+    template_name = 'registration.html'
+
+    def create_obj(self, data):
+        name = data['name']
+        name = site.decode_value(name)
+        new_obj = site.create_user('student', name)
+        site.students.append(new_obj)
+
+
+@AppRoute(routes=routes, url='/students')
+class StudentListView(ListView):
+    queryset = site.students
+    template_name = 'students.html'
+    context_object_name = 'objects_list'
+
+
+@AppRoute(routes=routes, url='/course_join')
+class CourseJoin:
     def __call__(self, request):
-        return '200 OK', render('registration.html')
+        if request['method'] == 'POST':
+            site.students_and_courses.append(request['data'])
+            print(site.students_and_courses)
+            return '200 OK', render('index.html',
+                                    categories=site.categories)
+        else:
+            return '200 OK', render('course_join.html',
+                                    courses=site.courses,
+                                    students=site.students)
 
 
 @AppRoute(routes=routes, url='/courses')
@@ -42,6 +70,16 @@ class CoursesList:
     @Debug(name='CoursesList')
     def __call__(self, request):
         logger.log('Список курсов')
+        categories = site.categories
+        return '200 OK', render('courses.html',
+                                objects_list=categories,
+                                courses_dict=site.courses_dict)
+
+
+@AppRoute(routes=routes, url='/courses')
+class CurrentCourse:
+    @Debug(name='CurrentCourse')
+    def __call__(self, request):
         categories = site.categories
         return '200 OK', render('courses.html',
                                 objects_list=categories,
@@ -69,9 +107,9 @@ class NewCourse:
             temp_list = site.courses_dict[category]
             temp_list.append(new_course)
             site.courses_dict.update({category: temp_list})
+            site.courses.append(new_course)
 
             categories = site.categories
-            print(request)
             return '200 OK', render('courses.html',
                                     objects_list=categories,
                                     courses_dict=site.courses_dict)

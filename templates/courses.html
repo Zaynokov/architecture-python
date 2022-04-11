@@ -16,7 +16,9 @@
                 <ul class="courses">
                     {% if courses_dict[item.name] %}
                         {% for course in courses_dict[item.name] %}
-                            <li><a href="#"><h5>{{ course.name }}</h5></a></li>
+                    <li>
+                        <h5>{{ course.name }}</h5>
+                    </li>
                         {% endfor %}
                     {% else %}
                         <li><h4>В этой категории еще нет курсов</h4></li>

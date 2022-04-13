@@ -1,6 +1,7 @@
 from new_work.templator import render
+from patterns.architectural_system_pattern_unit_of_work import UnitOfWork
 from patterns.behavioral_patterns import CreateView, ListView
-from patterns.creation_patterns import Engine, Logger
+from patterns.creation_patterns import Engine, Logger, MapperRegistry
 from patterns.structural_patterns import AppRoute, Debug
 
 site = Engine()
@@ -8,7 +9,8 @@ logger = Logger('main')
 
 routes = {}
 
-item_id = 0
+UnitOfWork.new_current()
+UnitOfWork.get_current().set_mapper_registry(MapperRegistry)
 
 
 @AppRoute(routes=routes, url='/')
@@ -42,13 +44,17 @@ class RegistrationView(CreateView):
         name = site.decode_value(name)
         new_obj = site.create_user('student', name)
         site.students.append(new_obj)
+        new_obj.mark_new()
+        UnitOfWork.get_current().commit()
 
 
 @AppRoute(routes=routes, url='/students')
 class StudentListView(ListView):
-    queryset = site.students
-    template_name = 'students.html'
-    context_object_name = 'objects_list'
+    template_name = 'student.html'
+
+    def get_queryset(self):
+        mapper = MapperRegistry.get_current_mapper('student')
+        return mapper.all()
 
 
 @AppRoute(routes=routes, url='/course_join')

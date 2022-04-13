@@ -1,0 +1,2 @@
+2022-03-25 21:41:24.647051 {'your_name': 'Peter', 'your_email': 'peter@peter.com', 'your_enquiry': 'Hello Buddy!', 'contact_submitted': 'submit'}
+2022-03-25 21:42:14.941616 {'your_name': 'qwerty', 'your_email': 'qwerty', 'your_enquiry': 'qwerty', 'contact_submitted': 'submit'}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Редактировать курсы</title>
+{% endblock %}
+
+{% block content %}
+      <div id="content">
+        <!-- insert the page content here -->
+        <h1>Редактировать курсы</h1>
+        <ul class="categories">
+            {% if objects_list %}
+                {% for item in objects_list %}
+            <li>
+                <h4>{{ item.name }} <a style="font-size: 10px" href="/edit_category">редактировать</a></h4>
+                <ul class="courses">
+                    {% if courses_dict[item.name] %}
+                        {% for course in courses_dict[item.name] %}
+                            <li><a style="display: inline-block;" href="#"><h5>{{ course.name }}</h5></a>
+                                <a style="font-size: 10px" href="/edit_course">редактировать</a></li>
+                        {% endfor %}
+                    {% else %}
+                        <li><h4>В этой категории еще нет курсов</h4></li>
+                    {% endif %}
+                </ul>
+            </li>
+                {% endfor %}
+            {% else %}
+                <li><h4>Пока нечего редактировать</h4></li>
+            {% endif %}
+        </ul>
+      </div>
+{% endblock %}

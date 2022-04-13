@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Регистрация</title>
+{% endblock %}
+
+{% block content %}
+      <div id="content">
+        <h1>Регистрация</h1>
+        <form method="post">
+          <div class="form_settings">
+            <p><span>Name</span><input class="contact" type="text" name="name" value="" /></p>
+            <p><span>Email Address</span><input class="contact" type="text" name="email" value="" /></p>
+            <p><span>Password</span><input class="contact" type="text" name="password" value="" /></p>
+            <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="contact_submitted" value="submit" /></p>
+          </div>
+        </form>
+      </div>
+{% endblock %}

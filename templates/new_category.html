@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Создать новую категорию</title>
+{% endblock %}
+
+{% block content %}
+      <div id="content">
+        <h3>Создание категории</h3>
+        <form method="post">
+            <input type="text" name="name" placeholder="Название">
+            <button type="submit">Сохранить и перейти к списку</button>
+        </form>
+        <a href="/"><h5>Вернуться в меню</h5></a>
+      </div>
+{% endblock %}

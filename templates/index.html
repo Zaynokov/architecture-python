@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Главная</title>
+{% endblock %}
+
+{% block content %}
+      <div id="content">
+        <h3>Меню администратора</h3>
+        <a href="/new_category"><h5>Создать новую категорию</h5></a>
+        {% if categories %}
+        <a href="/new_course"><h5>Создать новый курс</h5></a>
+        {% endif %}
+        <a href="/edit"><h5>Редактировать курсы</h5></a>
+        <a href="/course_join"><h5>Записать студента на курс</h5></a>
+      </div>
+{% endblock %}
